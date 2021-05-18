@@ -1,0 +1,41 @@
+name: bettr_mvp
+description: A new Flutter application.
+
+
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.7.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_animation_progress_bar: ^2.0.0
+
+flutter:
+
+  assets:
+    - img/
+
+  fonts:
+    - family: Cherry
+      fonts:
+        - asset: lib\fonts\CherrySwash-Regular.ttf
+    - family: Sen
+      fonts:
+        - asset: lib\fonts\Sen-Bold.ttf
+        - asset: lib\fonts\Sen-ExtraBold.ttf
+        - asset: lib\fonts\Sen-Regular.ttf
+    - family: Bai
+      fonts:
+      - asset: lib\fonts\BaiJamjuree-Bold.ttf
+
+  uses-material-design: true
