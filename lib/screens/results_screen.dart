@@ -2,7 +2,7 @@ import 'package:bettr_mvp/constants.dart';
 import 'package:bettr_mvp/screens/design_plan_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:bettr_mvp/models/results.brain.dart';
+import 'package:bettr_mvp/models/results_brain.dart';
 import 'package:bettr_mvp/widgets/linear_progress.dart';
 import 'package:bettr_mvp/screens/design_plan_screen.dart';
 

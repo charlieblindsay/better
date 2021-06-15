@@ -1,7 +1,7 @@
 import 'package:bettr_mvp/screens/schedule_plan_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:bettr_mvp/constants.dart';
-import 'package:bettr_mvp/models/plan_brain2.dart';
+import 'package:bettr_mvp/models/plan_brain.dart';
 
 
 
@@ -12,13 +12,11 @@ class DesignPlanScreen extends StatefulWidget {
 
 class _DesignPlanScreenState extends State<DesignPlanScreen> {
   int counter = 0;
-  PlanBrain planBrain = PlanBrain();
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    planBrain.createOptionStateList();
   }
 
   @override
@@ -67,29 +65,14 @@ class _DesignPlanScreenState extends State<DesignPlanScreen> {
                                 });
                               },
                               child: Text('${symptomsList[index]}')),
-                          trailing: Visibility(
-                              visible: false,
-                              maintainSize: true,
-                              maintainAnimation: true,
-                              maintainState: true,
-                              child: Text('${planBrain.planStateList[index]}')),
+                          // trailing: Visibility(
+                          //     visible: false,
+                          //     maintainSize: true,
+                          //     maintainAnimation: true,
+                          //     maintainState: true,
+                          //     child: Text('${brain.planStateList[index]}')),
                         ));
                       })
                 ]))));
   }
 }
-
-// if (planBrain.planStateList[index] == 0) {
-// planBrain.plansSelected++;
-// planBrain.planStateList[index] =
-// planBrain.plansSelected;
-// } else {
-// planBrain.plansSelected--;
-// for (int i in planBrain.planStateList) {
-// print('hello');
-// if (i != 0) {
-// i = 0;
-// }
-// }
-// planBrain.planStateList[index] = 0;
-// }
