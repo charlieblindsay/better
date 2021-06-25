@@ -4,6 +4,7 @@ import 'package:bettr_mvp/constants.dart';
 import 'package:bettr_mvp/models/plan_brain.dart';
 import 'package:bettr_mvp/screens/final_screen.dart';
 
+
 class SchedulePlanScreen extends StatefulWidget {
   final int symptomIndex;
 

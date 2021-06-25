@@ -2,7 +2,7 @@ import 'package:bettr_mvp/screens/schedule_plan_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:bettr_mvp/constants.dart';
 import 'package:bettr_mvp/models/plan_brain.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 class DesignPlanScreen extends StatefulWidget {
@@ -12,6 +12,11 @@ class DesignPlanScreen extends StatefulWidget {
 
 class _DesignPlanScreenState extends State<DesignPlanScreen> {
   int counter = 0;
+
+  setSymptomIndex(index) async{
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setInt('symptomIndex', index);
+  }
 
   @override
   void initState() {
@@ -58,6 +63,7 @@ class _DesignPlanScreenState extends State<DesignPlanScreen> {
                           title: TextButton(
                               onPressed: () {
                                 setState(() {
+                                  setSymptomIndex(index);
                                   Navigator.push(context,
                                       MaterialPageRoute(builder: (context) {
                                     return SchedulePlanScreen(symptomIndex: index,);

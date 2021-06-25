@@ -1,11 +1,35 @@
 import 'package:bettr_mvp/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:bettr_mvp/screens/quiz_screen.dart';
+import 'package:bettr_mvp/screens/lesson_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 String welcomeMessage =
     'Well done on taking the first step on the path to getting better...';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
+
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+
+  int index;
+
+  Future<void> _getSymptomIndex() async{
+    final prefs = await SharedPreferences.getInstance();
+    final symptomIndex = prefs.getInt('symptomIndex');
+    setState(() {
+      if (symptomIndex == null){
+        index = 0;
+      }
+      else{
+        index = symptomIndex;
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,7 +74,22 @@ class HomeScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   TextButton(
-                    child: Text('Screen yourself'.toUpperCase(), style: kMainText.copyWith(fontSize: 18.0),),
+                      child: Text(
+                        'See daily lesson'.toUpperCase(),
+                        style: kMainText.copyWith(fontSize: 18.0),
+                      ),
+                      onPressed: () {
+                        _getSymptomIndex();
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) {
+                          return LessonScreen(index:index);
+                        }));
+                      }),
+                  TextButton(
+                    child: Text(
+                      'Screen yourself'.toUpperCase(),
+                      style: kMainText.copyWith(fontSize: 18.0),
+                    ),
                     style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all(Colors.grey),
                         foregroundColor:
