@@ -78,6 +78,10 @@ class _HomeScreenState extends State<HomeScreen> {
                         'See daily lesson'.toUpperCase(),
                         style: kMainText.copyWith(fontSize: 18.0),
                       ),
+                      style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(Colors.grey),
+                          foregroundColor:
+                          MaterialStateProperty.all(Colors.black)),
                       onPressed: () {
                         _getSymptomIndex();
                         Navigator.push(context,
