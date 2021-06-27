@@ -15,19 +15,38 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
 
-  int index;
+  bool lessonButtonVisibility = true;
+  int symptomIndex2;
+  String frequency;
+  String timeOfDay;
+
+  Future<void> lessonButtonVisibilityFunction() async{
+    final prefs = await SharedPreferences.getInstance();
+    final symptomIndex = prefs.getInt('symptomIndex');
+    final selectedFrequency = prefs.getInt('frequency');
+    final selectedTimeOfDay = prefs.getInt('timeOfDay');
+    if(symptomIndex == null || selectedFrequency == null || selectedTimeOfDay == null){
+      lessonButtonVisibility = false;
+    }
+    else{
+      lessonButtonVisibility = true;
+    }
+  }
 
   Future<void> _getSymptomIndex() async{
     final prefs = await SharedPreferences.getInstance();
-    final symptomIndex = prefs.getInt('symptomIndex');
     setState(() {
-      if (symptomIndex == null){
-        index = 0;
-      }
-      else{
-        index = symptomIndex;
-      }
+        symptomIndex2 = prefs.getInt('symptomIndex');
+        frequency = prefs.getString('frequency');
+        timeOfDay = prefs.getString('timeOfDay');
     });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    lessonButtonVisibilityFunction();
   }
 
   @override
@@ -73,22 +92,25 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  TextButton(
-                      child: Text(
-                        'See daily lesson'.toUpperCase(),
-                        style: kMainText.copyWith(fontSize: 18.0),
-                      ),
-                      style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all(Colors.grey),
-                          foregroundColor:
-                          MaterialStateProperty.all(Colors.black)),
-                      onPressed: () {
-                        _getSymptomIndex();
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) {
-                          return LessonScreen(index:index);
-                        }));
-                      }),
+                  Visibility(
+                    visible: lessonButtonVisibility,
+                    child: TextButton(
+                        child: Text(
+                          'See daily lesson'.toUpperCase(),
+                          style: kMainText.copyWith(fontSize: 18.0),
+                        ),
+                        style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all(Colors.grey),
+                            foregroundColor:
+                            MaterialStateProperty.all(Colors.black)),
+                        onPressed: () {
+                          _getSymptomIndex();
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) {
+                            return LessonScreen(symptomIndex:symptomIndex2, frequency: frequency, timeOfDay: timeOfDay,);
+                          }));
+                        }),
+                  ),
                   TextButton(
                     child: Text(
                       'Screen yourself'.toUpperCase(),
