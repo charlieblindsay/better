@@ -59,7 +59,7 @@ class _LessonScreenState extends State<LessonScreen> {
                                 Row(
                                   children: [
                                     Expanded(
-                                      flex: 1,
+                                      flex: 2,
                                       child: Text(
                                         '${symptomsList[widget.symptomIndex]} Module',
                                         style: kMainTextBold.copyWith(
