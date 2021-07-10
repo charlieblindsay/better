@@ -10,9 +10,9 @@ String welcomeMessage =
     'Well done on taking the first step on the path to getting better...';
 
 class HomeScreen extends StatefulWidget {
-  // final bool lessonButtonVisibility;
-  //
-  // HomeScreen({@required this.lessonButtonVisibility});
+  final bool lessonButtonVisibility;
+
+  HomeScreen({@required this.lessonButtonVisibility});
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -85,27 +85,30 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    TextButton(
-                        child: Text(
-                          'See daily lesson'.toUpperCase(),
-                          style: kMainText.copyWith(fontSize: 18.0),
-                        ),
-                        style: ButtonStyle(
-                            backgroundColor:
-                                MaterialStateProperty.all(Colors.grey),
-                            foregroundColor:
-                                MaterialStateProperty.all(Colors.black)),
-                        onPressed: () async {
-                          getSymptomIndex();
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (context) {
-                            return LessonScreen(
-                              symptomIndex: symptomIndex,
-                              frequency: frequency,
-                              timeOfDay: timeOfDay,
-                            );
-                          }));
-                        }),
+                    Visibility(
+                      visible: widget.lessonButtonVisibility,
+                      child: TextButton(
+                          child: Text(
+                            'See daily lesson'.toUpperCase(),
+                            style: kMainText.copyWith(fontSize: 18.0),
+                          ),
+                          style: ButtonStyle(
+                              backgroundColor:
+                                  MaterialStateProperty.all(Colors.grey),
+                              foregroundColor:
+                                  MaterialStateProperty.all(Colors.black)),
+                          onPressed: () async {
+                            getSymptomIndex();
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (context) {
+                              return LessonScreen(
+                                symptomIndex: symptomIndex,
+                                frequency: frequency,
+                                timeOfDay: timeOfDay,
+                              );
+                            }));
+                          }),
+                    ),
                     TextButton(
                       child: Text(
                         'Screen yourself'.toUpperCase(),
