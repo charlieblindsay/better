@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:bettr_mvp/constants.dart';
 import 'package:bettr_mvp/models/plan_brain.dart';
 import 'package:bettr_mvp/screens/final_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 class SchedulePlanScreen extends StatefulWidget {
@@ -17,6 +18,12 @@ class SchedulePlanScreen extends StatefulWidget {
 class _SchedulePlanScreenState extends State<SchedulePlanScreen> {
   String selectedFrequencyOption = 'Everyday';
   String selectedTimeOfDay = '0900';
+
+  setScheduling(frequency, timeOfDay) async{
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('frequency', frequency);
+    await prefs.setString('timeOfDay', timeOfDay);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -136,6 +143,7 @@ class _SchedulePlanScreenState extends State<SchedulePlanScreen> {
                 ),
                 ElevatedButton(onPressed: () {
                   setState(() {
+                    setScheduling(selectedFrequencyOption, selectedTimeOfDay);
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) {
                           return FinalScreen();

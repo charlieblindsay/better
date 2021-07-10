@@ -1,3 +1,4 @@
+import 'package:bettr_mvp/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:bettr_mvp/constants.dart';
 
@@ -43,7 +44,23 @@ class FinalScreen extends StatelessWidget {
                         style: kMainTextBold.copyWith(
                             color: Colors.white, fontSize: 36),
                     textAlign: TextAlign.center,),
-                  )
+                  ),
+                      TextButton(
+                        child: Text(
+                          'Return to home screen'.toUpperCase(),
+                          style: kMainText.copyWith(fontSize: 18.0),
+                        ),
+                        style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all(Colors.grey),
+                            foregroundColor:
+                            MaterialStateProperty.all(Colors.black)),
+                        onPressed: () {
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) {
+                                return HomeScreen();
+                              }));
+                        },
+                      ),
                 ]))));
   }
 }

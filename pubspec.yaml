@@ -29,14 +29,14 @@ flutter:
   fonts:
     - family: Cherry
       fonts:
-        - asset: lib\fonts\CherrySwash-Regular.ttf
+        - asset: lib/fonts/CherrySwash-Regular.ttf
     - family: Sen
       fonts:
-        - asset: lib\fonts\Sen-Bold.ttf
-        - asset: lib\fonts\Sen-ExtraBold.ttf
-        - asset: lib\fonts\Sen-Regular.ttf
+        - asset: lib/fonts/Sen-Bold.ttf
+        - asset: lib/fonts/Sen-ExtraBold.ttf
+        - asset: lib/fonts/Sen-Regular.ttf
     - family: Bai
       fonts:
-      - asset: lib\fonts\BaiJamjuree-Bold.ttf
+      - asset: lib/fonts/BaiJamjuree-Bold.ttf
 
   uses-material-design: true

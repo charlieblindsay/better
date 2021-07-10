@@ -3,9 +3,11 @@ import 'package:bettr_mvp/models/plan_brain.dart';
 import 'package:bettr_mvp/constants.dart';
 
 class LessonScreen extends StatefulWidget {
-  final int index;
+  final int symptomIndex;
+  final String frequency;
+  final String timeOfDay;
 
-  LessonScreen({@required this.index});
+  LessonScreen({@required this.symptomIndex, @required this.timeOfDay, @required this.frequency});
 
   @override
   _LessonScreenState createState() => _LessonScreenState();
@@ -59,7 +61,7 @@ class _LessonScreenState extends State<LessonScreen> {
                                     Expanded(
                                       flex: 1,
                                       child: Text(
-                                        '${symptomsList[widget.index]} Module',
+                                        '${symptomsList[widget.symptomIndex]} Module',
                                         style: kMainTextBold.copyWith(
                                             color: Colors.white, fontSize: 29),
                                       ),
@@ -102,7 +104,9 @@ class _LessonScreenState extends State<LessonScreen> {
                                   'Today, let\'s try turning our phone off 30-45 minutes before we sleep.',
                                   style: kMainText.copyWith(fontSize: 20),
                                 ),
-                              )
+                              ),
+                              Text('${widget.timeOfDay}'),
+                              Text('${widget.frequency}')
                             ]))),
                   )
                 ]))));
