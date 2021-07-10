@@ -1,8 +1,10 @@
 import 'package:bettr_mvp/constants.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:bettr_mvp/screens/quiz_screen.dart';
 import 'package:bettr_mvp/screens/lesson_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 
 String welcomeMessage =
     'Well done on taking the first step on the path to getting better...';
@@ -17,18 +19,21 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int symptomIndex2;
+  //Below are the variables to store information about the user's lesson and scheduling
+  //preferences. These will be accessed using shared preferences
+  int symptomIndex;
   String frequency;
   String timeOfDay;
+
   int bottomNavIndex = 0;
 
-  Future<void> _getSymptomIndex() async {
+  //Function below accesses values of 3 properties for user's lesson and scheduling preferences
+  //from shared preferences
+  Future<void> getSymptomIndex() async {
     final prefs = await SharedPreferences.getInstance();
-    setState(() {
-      symptomIndex2 = prefs.getInt('symptomIndex');
-      frequency = prefs.getString('frequency');
-      timeOfDay = prefs.getString('timeOfDay');
-    });
+    symptomIndex = prefs.getInt('symptomIndex');
+    frequency = prefs.getString('frequency');
+    timeOfDay = prefs.getString('timeOfDay');
   }
 
   @override
@@ -90,12 +95,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                 MaterialStateProperty.all(Colors.grey),
                             foregroundColor:
                                 MaterialStateProperty.all(Colors.black)),
-                        onPressed: () {
-                          _getSymptomIndex();
+                        onPressed: () async {
+                          getSymptomIndex();
                           Navigator.push(context,
                               MaterialPageRoute(builder: (context) {
                             return LessonScreen(
-                              symptomIndex: symptomIndex2,
+                              symptomIndex: symptomIndex,
                               frequency: frequency,
                               timeOfDay: timeOfDay,
                             );

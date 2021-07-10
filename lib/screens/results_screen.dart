@@ -4,7 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:bettr_mvp/models/results_brain.dart';
 import 'package:bettr_mvp/widgets/linear_progress.dart';
-import 'package:bettr_mvp/screens/design_plan_screen.dart';
 
 String resultsMessage =
     'Based on your responses to questions 1-8, you are experiencing some symptoms seen in depression but only an experienced health professional can tell for sure.'
@@ -67,7 +66,7 @@ class ResultsScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                     VerticalLinearProgress(
-                    progressLevel: 0.3, boxHeight: 400.0, boxWidth: 75.0),
+                    progressLevel: score/27, boxHeight: 400.0, boxWidth: 75.0),
                 Expanded(
                   flex: 3,
                   child: Column(

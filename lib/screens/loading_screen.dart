@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:bettr_mvp/screens/home_screen.dart';
+import 'package:bettr_mvp/services/shared_preferences_service.dart';
+import 'package:bettr_mvp/services/shared_preferences_service.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+
 
 class LoadingScreen extends StatefulWidget {
 
@@ -12,32 +16,22 @@ class LoadingScreen extends StatefulWidget {
 
 class _LoadingScreenState extends State<LoadingScreen> {
 
-
-
-  Future<void> lessonButtonVisibilityFunction() async{
-    final prefs = await SharedPreferences.getInstance();
-    final symptomIndex = prefs.getInt('symptomIndex');
-    final selectedFrequency = prefs.getInt('frequency');
-    final selectedTimeOfDay = prefs.getInt('timeOfDay');
-    if(symptomIndex == null || selectedFrequency == null || selectedTimeOfDay == null){
-      widget.lessonButtonVisibility = false;
-    }
-    else{
-      widget.lessonButtonVisibility = true;
-    }
-  }
-
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    lessonButtonVisibilityFunction();
-    print(widget.lessonButtonVisibility);
+    SharedPreferencesService sharedPreferences = SharedPreferencesService();
+    setState(() {
+      sharedPreferences.lessonButtonVisibilityFunction(widget.lessonButtonVisibility);
+    });
 
-    Navigator.push(context,
-        MaterialPageRoute(builder: (context) {
-          return HomeScreen();
-        }));
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) {
+            return HomeScreen();
+          }));
+    });
+
   }
   @override
   Widget build(BuildContext context) {
