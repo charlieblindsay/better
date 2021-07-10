@@ -1,8 +1,17 @@
 import 'package:bettr_mvp/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:bettr_mvp/constants.dart';
+import 'package:bettr_mvp/services/shared_preferences_service.dart';
 
-class FinalScreen extends StatelessWidget {
+class FinalScreen extends StatefulWidget {
+
+  @override
+  _FinalScreenState createState() => _FinalScreenState();
+}
+
+class _FinalScreenState extends State<FinalScreen> {
+  bool loading = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,10 +63,14 @@ class FinalScreen extends StatelessWidget {
                             backgroundColor: MaterialStateProperty.all(Colors.grey),
                             foregroundColor:
                             MaterialStateProperty.all(Colors.black)),
-                        onPressed: () {
+                        onPressed: () async{
+                          setState(() => loading = true);
+                          SharedPreferencesService sharedPreferences = SharedPreferencesService();
+                          bool lessonButtonVisibility = await sharedPreferences.lessonButtonVisibilityFunction();
+                          setState(() => loading = false);
                           Navigator.push(context,
-                              MaterialPageRoute(builder: (context) {
-                                return HomeScreen();
+                              MaterialPageRoute(builder: (context){
+                                return HomeScreen(lessonButtonVisibility: lessonButtonVisibility,);
                               }));
                         },
                       ),

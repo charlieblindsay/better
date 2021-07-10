@@ -4,16 +4,16 @@ class SharedPreferencesService {
 
   //Function below checks to see if the user has set their shared preferences for
   //lessons and scheduling and if not, the lesson button will not be visible.
-  Future<void> lessonButtonVisibilityFunction(bool lessonButtonVisibility) async{
+  Future<bool> lessonButtonVisibilityFunction() async{
     final prefs = await SharedPreferences.getInstance();
     final symptomIndex = prefs.getInt('symptomIndex');
-    final selectedFrequency = prefs.getInt('frequency');
-    final selectedTimeOfDay = prefs.getInt('timeOfDay');
+    final selectedFrequency = prefs.getString('frequency');
+    final selectedTimeOfDay = prefs.getString('timeOfDay');
     if(symptomIndex == null || selectedFrequency == null || selectedTimeOfDay == null){
-      lessonButtonVisibility = false;
+      return false;
     }
     else{
-      lessonButtonVisibility = true;
+      return true;
     }
   }
 
