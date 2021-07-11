@@ -13,7 +13,7 @@ String resultsMessage =
 class ResultsScreen extends StatelessWidget {
   final int score;
 
-  ResultsScreen({@required this.score});
+  ResultsScreen({this.score});
 
   final ResultsBrain resultsBrain = ResultsBrain();
 

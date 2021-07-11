@@ -4,8 +4,16 @@ import 'package:flutter/material.dart';
 import 'screens/home_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'locator.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
-void main() {
+Future<void> backgroundHandler(RemoteMessage message) async{
+  print(message.notification.title);
+}
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  FirebaseMessaging.onBackgroundMessage(backgroundHandler);
   setupLocator();
   runApp(BetterApp());
 }

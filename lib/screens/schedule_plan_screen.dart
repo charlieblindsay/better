@@ -9,7 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class SchedulePlanScreen extends StatefulWidget {
   final int symptomIndex;
 
-  SchedulePlanScreen({@required this.symptomIndex});
+  SchedulePlanScreen({this.symptomIndex});
 
   @override
   _SchedulePlanScreenState createState() => _SchedulePlanScreenState();
