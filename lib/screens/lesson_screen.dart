@@ -7,7 +7,7 @@ class LessonScreen extends StatefulWidget {
   final String frequency;
   final String timeOfDay;
 
-  LessonScreen({@required this.symptomIndex, @required this.timeOfDay, @required this.frequency});
+  LessonScreen({this.symptomIndex, this.timeOfDay, this.frequency});
 
   @override
   _LessonScreenState createState() => _LessonScreenState();

@@ -13,7 +13,7 @@ String welcomeMessage =
 class HomeScreen extends StatefulWidget {
   final bool lessonButtonVisibility;
 
-  HomeScreen({@required this.lessonButtonVisibility});
+  HomeScreen({this.lessonButtonVisibility});
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -22,8 +22,6 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   //Below are the variables to store information about the user's lesson and scheduling
   //preferences. These will be accessed using shared preferences
-  String frequency;
-  String timeOfDay;
 
   int bottomNavIndex = 0;
 
