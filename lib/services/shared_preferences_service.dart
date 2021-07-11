@@ -17,6 +17,18 @@ class SharedPreferencesService {
     }
   }
 
+  //Function below accesses values of 3 properties for user's lesson and scheduling preferences
+  //from shared preferences
+  Future<int> getSymptomIndex() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getInt('symptomIndex');
+  }
 
+  Future<List<String>> getScheduling() async {
+    final prefs = await SharedPreferences.getInstance();
+    String frequency = prefs.getString('frequency');
+    String timeOfDay = prefs.getString('timeOfDay');
+    return [frequency, timeOfDay];
+  }
 
 }
