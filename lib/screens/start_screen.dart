@@ -1,9 +1,10 @@
-import 'package:bettr_mvp/services/shared_preferences_service.dart';
 import 'package:flutter/material.dart';
 import 'package:bettr_mvp/screens/home_screen.dart';
 import 'package:bettr_mvp/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:bettr_mvp/widgets/loading.dart';
+import 'package:bettr_mvp/locator.dart';
+import 'package:bettr_mvp/services/shared_preferences_service.dart';
 
 String welcomeMessage =
     'Well done on taking the first step on the path to getting better...';
@@ -64,7 +65,7 @@ class _StartScreenState extends State<StartScreen> {
               TextButton(
                 onPressed: () async {
                   setState(() => loading = true);
-                  SharedPreferencesService sharedPreferences = SharedPreferencesService();
+                  final sharedPreferences = locator<SharedPreferencesService>();
                   bool lessonButtonVisibility = await sharedPreferences.lessonButtonVisibilityFunction();
                   setState(() => loading = false);
                   Navigator.push(context,

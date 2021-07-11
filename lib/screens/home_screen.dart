@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:bettr_mvp/screens/quiz_screen.dart';
 import 'package:bettr_mvp/screens/lesson_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:bettr_mvp/locator.dart';
+import 'package:bettr_mvp/services/shared_preferences_service.dart';
 
 String welcomeMessage =
     'Well done on taking the first step on the path to getting better...';
@@ -21,20 +22,10 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   //Below are the variables to store information about the user's lesson and scheduling
   //preferences. These will be accessed using shared preferences
-  int symptomIndex;
   String frequency;
   String timeOfDay;
 
   int bottomNavIndex = 0;
-
-  //Function below accesses values of 3 properties for user's lesson and scheduling preferences
-  //from shared preferences
-  Future<void> getSymptomIndex() async {
-    final prefs = await SharedPreferences.getInstance();
-    symptomIndex = prefs.getInt('symptomIndex');
-    frequency = prefs.getString('frequency');
-    timeOfDay = prefs.getString('timeOfDay');
-  }
 
   @override
   void initState() {
@@ -98,13 +89,16 @@ class _HomeScreenState extends State<HomeScreen> {
                               foregroundColor:
                                   MaterialStateProperty.all(Colors.black)),
                           onPressed: () async {
-                            getSymptomIndex();
+                            final sharedPreferencesService =
+                                locator<SharedPreferencesService>();
+                            int symptomIndex = await sharedPreferencesService.getSymptomIndex();
+                            List<String> schedulingList = await sharedPreferencesService.getScheduling();
                             Navigator.push(context,
                                 MaterialPageRoute(builder: (context) {
                               return LessonScreen(
                                 symptomIndex: symptomIndex,
-                                frequency: frequency,
-                                timeOfDay: timeOfDay,
+                                frequency: schedulingList[0],
+                                timeOfDay: schedulingList[1],
                               );
                             }));
                           }),
@@ -135,25 +129,20 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: bottomNavIndex,
-        onTap: (index){
+        onTap: (index) {
           setState(() {
             bottomNavIndex = index;
           });
         },
         type: BottomNavigationBarType.fixed,
         items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
           BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: 'Home'),
+              icon: Icon(Icons.school), label: 'Daily lesson'),
           BottomNavigationBarItem(
-              icon: Icon(Icons.school),
-              label: 'Daily lesson'),
+              icon: Icon(Icons.view_module), label: 'Courses'),
           BottomNavigationBarItem(
-              icon: Icon(Icons.view_module),
-              label: 'Courses'),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.medical_services),
-              label: 'Screen yourself'),
+              icon: Icon(Icons.medical_services), label: 'Screen yourself'),
         ],
       ),
     );
