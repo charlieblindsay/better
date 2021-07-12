@@ -1,3 +1,4 @@
+import 'package:bettr_mvp/services/local_notifications_service.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:bettr_mvp/screens/home_screen.dart';
@@ -23,6 +24,7 @@ class _StartScreenState extends State<StartScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    LocalNotificationService.initialize(context);
 
     FirebaseMessaging.instance.getInitialMessage().then((message) async{
       final sharedPreferencesService =
@@ -34,8 +36,6 @@ class _StartScreenState extends State<StartScreen> {
           MaterialPageRoute(builder: (context) {
             return LessonScreen(
               symptomIndex: symptomIndex,
-              frequency: schedulingList[0],
-              timeOfDay: schedulingList[1],
             );
           }));
     });
@@ -47,6 +47,8 @@ class _StartScreenState extends State<StartScreen> {
         print(message.notification.body);
         print(message.notification.title);
       }
+
+      LocalNotificationService.display(message);
     });
 
     //only called when app is in background but open and user taps pn the notification
@@ -60,8 +62,6 @@ class _StartScreenState extends State<StartScreen> {
           MaterialPageRoute(builder: (context) {
             return LessonScreen(
               symptomIndex: symptomIndex,
-              frequency: schedulingList[0],
-              timeOfDay: schedulingList[1],
             );
           }));
     });
@@ -118,7 +118,7 @@ class _StartScreenState extends State<StartScreen> {
                             lessonButtonVisibility: lessonButtonVisibility,);
                         }));
                   },
-                  child: Text('Start'),
+                  child: Text('Start'.toUpperCase(), style: kMainText.copyWith(fontSize: 18.0)),
                   style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all(Colors.grey),
                       foregroundColor: MaterialStateProperty.all(Colors.black)),

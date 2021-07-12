@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:bettr_mvp/models/plan_brain.dart';
 import 'package:bettr_mvp/constants.dart';
+import 'package:bettr_mvp/screens/home_screen.dart';
 
 class LessonScreen extends StatefulWidget {
   final int symptomIndex;
-  final String frequency;
-  final String timeOfDay;
 
-  LessonScreen({this.symptomIndex, this.timeOfDay, this.frequency});
+  LessonScreen({this.symptomIndex});
 
   @override
   _LessonScreenState createState() => _LessonScreenState();
@@ -105,9 +104,22 @@ class _LessonScreenState extends State<LessonScreen> {
                                   style: kMainText.copyWith(fontSize: 20),
                                 ),
                               ),
-                              Text('${widget.timeOfDay}'),
-                              Text('${widget.frequency}')
                             ]))),
+                  ),
+                  TextButton(
+                    onPressed: () async {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return HomeScreen(
+                          lessonButtonVisibility: true,
+                        );
+                      }));
+                    },
+                    child: Text('Return home'.toUpperCase(), style: kMainText.copyWith(fontSize: 18.0)),
+                    style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all(Colors.grey),
+                        foregroundColor:
+                            MaterialStateProperty.all(Colors.black)),
                   )
                 ]))));
   }

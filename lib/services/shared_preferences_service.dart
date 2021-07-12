@@ -31,4 +31,9 @@ class SharedPreferencesService {
     return [frequency, timeOfDay];
   }
 
+  void setSymptomIndex(index) async{
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setInt('symptomIndex', index);
+  }
+
 }
