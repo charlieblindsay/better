@@ -67,12 +67,12 @@ class _DesignPlanScreenState extends State<DesignPlanScreen> {
                                 int symptomIndex = await sharedPreferencesService.getSymptomIndex();
                                 Navigator.push(context,
                                     MaterialPageRoute(builder: (context) {
-                                      return LessonScreen(
+                                      return SchedulePlanScreen(
                                         symptomIndex: symptomIndex,
                                       );
                                     }));
                               },
-                              child: Text('${symptomsList[index]}')),
+                              child: Text('${symptomsList[index]['symptom']}')),
                           // trailing: Visibility(
                           //     visible: false,
                           //     maintainSize: true,

@@ -8,6 +8,7 @@ import 'package:bettr_mvp/widgets/loading.dart';
 import 'package:bettr_mvp/locator.dart';
 import 'package:bettr_mvp/services/shared_preferences_service.dart';
 import 'package:bettr_mvp/screens/lesson_screen.dart';
+import 'package:bettr_mvp/models/lesson_brain.dart';
 
 
 String welcomeMessage =
@@ -30,12 +31,15 @@ class _StartScreenState extends State<StartScreen> {
       final sharedPreferencesService =
       locator<SharedPreferencesService>();
       int symptomIndex = await sharedPreferencesService.getSymptomIndex();
-      List<String> schedulingList = await sharedPreferencesService
-          .getScheduling();
+      Lesson currentLessonClass = Lesson(symptomIndex: symptomIndex);
+      int currentLessonIndex = await currentLessonClass.getCurrentLessonIndex();
+      String currentLesson = currentLessonClass.getCurrentLesson(currentLessonIndex);
       Navigator.push(context,
           MaterialPageRoute(builder: (context) {
             return LessonScreen(
               symptomIndex: symptomIndex,
+              currentLesson: currentLesson,
+              currentLessonIndex: currentLessonIndex,
             );
           }));
     });
