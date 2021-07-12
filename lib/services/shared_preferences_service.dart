@@ -7,9 +7,7 @@ class SharedPreferencesService {
   Future<bool> lessonButtonVisibilityFunction() async{
     final prefs = await SharedPreferences.getInstance();
     final symptomIndex = prefs.getInt('symptomIndex');
-    final selectedFrequency = prefs.getString('frequency');
-    final selectedTimeOfDay = prefs.getString('timeOfDay');
-    if(symptomIndex == null || selectedFrequency == null || selectedTimeOfDay == null){
+    if(symptomIndex == null){
       return false;
     }
     else{
@@ -30,5 +28,12 @@ class SharedPreferencesService {
     String timeOfDay = prefs.getString('timeOfDay');
     return [frequency, timeOfDay];
   }
+
+  void setSymptomIndex(index) async{
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setInt('symptomIndex', index);
+  }
+
+
 
 }

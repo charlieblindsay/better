@@ -25,8 +25,6 @@ class LocalNotificationService {
           MaterialPageRoute(builder: (context) {
             return LessonScreen(
               symptomIndex: symptomIndex,
-              frequency: schedulingList[0],
-              timeOfDay: schedulingList[1],
             );
           }));
     });

@@ -16,14 +16,6 @@ class SchedulePlanScreen extends StatefulWidget {
 }
 
 class _SchedulePlanScreenState extends State<SchedulePlanScreen> {
-  String selectedFrequencyOption = 'Everyday';
-  String selectedTimeOfDay = '0900';
-
-  setScheduling(frequency, timeOfDay) async{
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('frequency', frequency);
-    await prefs.setString('timeOfDay', timeOfDay);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,100 +42,54 @@ class _SchedulePlanScreenState extends State<SchedulePlanScreen> {
                     ),
                   ],
                 ),
-                Text(
-                  'DESIGN YOUR PLAN',
-                  style: kMainTextBold.copyWith(
-                      fontSize: 26, color: Color(0XFF0558A5)),
-                ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 50.0),
+                  padding: const EdgeInsets.only(bottom: 30.0),
                   child: Text(
-                    'Symptom you have chosen to work on:',
-                    style: kMainTextBold.copyWith(fontSize: 16),
+                    'DESIGN YOUR PLAN',
+                    style: kMainTextBold.copyWith(
+                        fontSize: 26, color: Color(0XFF0558A5)),
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 20.0),
-                  child: Center(
-                      child: Text(
-                        '${symptomsList[widget.symptomIndex]}',
-                        style: kMainTextBold.copyWith(fontSize: 30),
-                      )),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 20.0),
-                  child: Text(
-                    'which involves a:',
-                    style: kMainText.copyWith(fontSize: 16),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 10.0),
-                  child: Text('${symptomsDescriptionsList[widget.symptomIndex]}', style: kMainText.copyWith(fontSize: 18),),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 50.0),
+                  padding: const EdgeInsets.only(bottom: 50.0),
                   child: Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
                       child: Container(
-                        height: 200,
-                        child: Column(children: [
-                          Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: Text('Select your frequency and time preferences below:', style: kMainText.copyWith(fontSize: 18),),
-                          ),
-                          Expanded(
-                            child: ListTile(leading: Text(
-                              'Frequency', style: kMainText.copyWith(fontSize: 20),),
-                              trailing:
-                              DropdownButton(
-                                value: selectedFrequencyOption,
-                                onChanged: (newValue) {
-                                  setState(() {
-                                    selectedFrequencyOption = newValue;
-                                  });
-                                },
-                                items: <String>[
-                                  'Everyday',
-                                  'Once every 2 days',
-                                  'Once a fortnite'
-                                ].map<DropdownMenuItem<String>>((String value) {
-                                  return DropdownMenuItem<String>(
-                                    value: value,
-                                    child: Text(value),
-                                  );
-                                }).toList(),
-                              ),),
-                          ),
-                          Expanded(
-                            child: ListTile(leading: Text('Time of day',
-                                style: kMainText.copyWith(fontSize: 20)),
-                                trailing:
-                                DropdownButton(
-                                  value: selectedTimeOfDay,
-                                  onChanged: (newValue) {
-                                    setState(() {
-                                      selectedTimeOfDay = newValue;
-                                    });
-                                  },
-                                  items: <String>[
-                                    '0900',
-                                    '1200',
-                                    '1500',
-                                    '1800'
-                                  ].map<DropdownMenuItem<String>>((String value) {
-                                    return DropdownMenuItem<String>(
-                                      value: value,
-                                      child: Text(value),
-                                    );
-                                  }).toList(),
-                                )),
-                          ),
-                        ]),
-                      )),
+                        child: Column(
+                          children: [
+                            Text(
+                              'Symptom you have chosen to work on:',
+                              style: kMainTextBold.copyWith(fontSize: 16),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 20.0),
+                              child: Center(
+                                  child: Text(
+                                    '${symptomsList[widget.symptomIndex]['symptom']}',
+                                    style: kMainTextBold.copyWith(fontSize: 30),
+                                  )),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 20.0),
+                              child: Text(
+                                'which involves a:',
+                                style: kMainText.copyWith(fontSize: 16),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 10.0),
+                              child: Text('${symptomsList[widget.symptomIndex]['description']}', style: kMainText.copyWith(fontSize: 18),),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
+
                 ElevatedButton(onPressed: () {
                   setState(() {
-                    setScheduling(selectedFrequencyOption, selectedTimeOfDay);
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) {
                           return FinalScreen();
@@ -166,3 +112,64 @@ class _SchedulePlanScreenState extends State<SchedulePlanScreen> {
 //       });
 //     })
 //
+
+// Padding(
+//   padding: const EdgeInsets.only(top: 50.0),
+//   child: Card(
+//       child: Container(
+//         height: 200,
+//         child: Column(children: [
+//           Padding(
+//             padding: const EdgeInsets.all(16.0),
+//             child: Text('Select your frequency and time preferences below:', style: kMainText.copyWith(fontSize: 18),),
+//           ),
+//           Expanded(
+//             child: ListTile(leading: Text(
+//               'Frequency', style: kMainText.copyWith(fontSize: 20),),
+//               trailing:
+//               DropdownButton(
+//                 value: selectedFrequencyOption,
+//                 onChanged: (newValue) {
+//                   setState(() {
+//                     selectedFrequencyOption = newValue;
+//                   });
+//                 },
+//                 items: <String>[
+//                   'Everyday',
+//                   'Once every 2 days',
+//                   'Once a fortnite'
+//                 ].map<DropdownMenuItem<String>>((String value) {
+//                   return DropdownMenuItem<String>(
+//                     value: value,
+//                     child: Text(value),
+//                   );
+//                 }).toList(),
+//               ),),
+//           ),
+//           Expanded(
+//             child: ListTile(leading: Text('Time of day',
+//                 style: kMainText.copyWith(fontSize: 20)),
+//                 trailing:
+//                 DropdownButton(
+//                   value: selectedTimeOfDay,
+//                   onChanged: (newValue) {
+//                     setState(() {
+//                       selectedTimeOfDay = newValue;
+//                     });
+//                   },
+//                   items: <String>[
+//                     '0900',
+//                     '1200',
+//                     '1500',
+//                     '1800'
+//                   ].map<DropdownMenuItem<String>>((String value) {
+//                     return DropdownMenuItem<String>(
+//                       value: value,
+//                       child: Text(value),
+//                     );
+//                   }).toList(),
+//                 )),
+//           ),
+//         ]),
+//       )),
+// ),

@@ -1,3 +1,4 @@
+import 'package:bettr_mvp/services/local_notifications_service.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:bettr_mvp/screens/home_screen.dart';
@@ -7,6 +8,7 @@ import 'package:bettr_mvp/widgets/loading.dart';
 import 'package:bettr_mvp/locator.dart';
 import 'package:bettr_mvp/services/shared_preferences_service.dart';
 import 'package:bettr_mvp/screens/lesson_screen.dart';
+import 'package:bettr_mvp/models/lesson_brain.dart';
 
 
 String welcomeMessage =
@@ -23,19 +25,21 @@ class _StartScreenState extends State<StartScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    LocalNotificationService.initialize(context);
 
     FirebaseMessaging.instance.getInitialMessage().then((message) async{
       final sharedPreferencesService =
       locator<SharedPreferencesService>();
       int symptomIndex = await sharedPreferencesService.getSymptomIndex();
-      List<String> schedulingList = await sharedPreferencesService
-          .getScheduling();
+      Lesson currentLessonClass = Lesson(symptomIndex: symptomIndex);
+      int currentLessonIndex = await currentLessonClass.getCurrentLessonIndex();
+      String currentLesson = currentLessonClass.getCurrentLesson(currentLessonIndex);
       Navigator.push(context,
           MaterialPageRoute(builder: (context) {
             return LessonScreen(
               symptomIndex: symptomIndex,
-              frequency: schedulingList[0],
-              timeOfDay: schedulingList[1],
+              currentLesson: currentLesson,
+              currentLessonIndex: currentLessonIndex,
             );
           }));
     });
@@ -47,6 +51,8 @@ class _StartScreenState extends State<StartScreen> {
         print(message.notification.body);
         print(message.notification.title);
       }
+
+      LocalNotificationService.display(message);
     });
 
     //only called when app is in background but open and user taps pn the notification
@@ -60,8 +66,6 @@ class _StartScreenState extends State<StartScreen> {
           MaterialPageRoute(builder: (context) {
             return LessonScreen(
               symptomIndex: symptomIndex,
-              frequency: schedulingList[0],
-              timeOfDay: schedulingList[1],
             );
           }));
     });
@@ -118,7 +122,7 @@ class _StartScreenState extends State<StartScreen> {
                             lessonButtonVisibility: lessonButtonVisibility,);
                         }));
                   },
-                  child: Text('Start'),
+                  child: Text('Start'.toUpperCase(), style: kMainText.copyWith(fontSize: 18.0)),
                   style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all(Colors.grey),
                       foregroundColor: MaterialStateProperty.all(Colors.black)),

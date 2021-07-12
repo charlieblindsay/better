@@ -1,4 +1,5 @@
 import 'package:bettr_mvp/constants.dart';
+import 'package:bettr_mvp/screens/design_plan_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:bettr_mvp/screens/quiz_screen.dart';
@@ -6,6 +7,7 @@ import 'package:bettr_mvp/screens/lesson_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:bettr_mvp/locator.dart';
 import 'package:bettr_mvp/services/shared_preferences_service.dart';
+import 'package:bettr_mvp/models/lesson_brain.dart';
 
 String welcomeMessage =
     'Well done on taking the first step on the path to getting better...';
@@ -74,6 +76,23 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
+                    TextButton(
+                      child: Text(
+                        'Screen yourself'.toUpperCase(),
+                        style: kMainText.copyWith(fontSize: 18.0),
+                      ),
+                      style: ButtonStyle(
+                          backgroundColor:
+                          MaterialStateProperty.all(Colors.grey),
+                          foregroundColor:
+                          MaterialStateProperty.all(Colors.black)),
+                      onPressed: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) {
+                              return QuizScreen();
+                            }));
+                      },
+                    ),
                     Visibility(
                       visible: widget.lessonButtonVisibility,
                       child: TextButton(
@@ -90,33 +109,37 @@ class _HomeScreenState extends State<HomeScreen> {
                             final sharedPreferencesService =
                                 locator<SharedPreferencesService>();
                             int symptomIndex = await sharedPreferencesService.getSymptomIndex();
-                            List<String> schedulingList = await sharedPreferencesService.getScheduling();
+                            Lesson currentLessonClass = Lesson(symptomIndex: symptomIndex);
+                            int currentLessonIndex = await currentLessonClass.getCurrentLessonIndex();
+                            String currentLesson = currentLessonClass.getCurrentLesson(currentLessonIndex);
                             Navigator.push(context,
                                 MaterialPageRoute(builder: (context) {
                               return LessonScreen(
                                 symptomIndex: symptomIndex,
-                                frequency: schedulingList[0],
-                                timeOfDay: schedulingList[1],
+                                currentLesson: currentLesson,
+                                currentLessonIndex: currentLessonIndex,
                               );
                             }));
                           }),
                     ),
-                    TextButton(
-                      child: Text(
-                        'Screen yourself'.toUpperCase(),
-                        style: kMainText.copyWith(fontSize: 18.0),
-                      ),
-                      style: ButtonStyle(
-                          backgroundColor:
+                    Visibility(
+                      visible: widget.lessonButtonVisibility,
+                      child: TextButton(
+                          child: Text(
+                            'Change your course'.toUpperCase(),
+                            style: kMainText.copyWith(fontSize: 18.0),
+                          ),
+                          style: ButtonStyle(
+                              backgroundColor:
                               MaterialStateProperty.all(Colors.grey),
-                          foregroundColor:
+                              foregroundColor:
                               MaterialStateProperty.all(Colors.black)),
-                      onPressed: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) {
-                          return QuizScreen();
-                        }));
-                      },
+                          onPressed: () async {
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (context) {
+                                  return DesignPlanScreen();
+                                }));
+                          }),
                     ),
                   ],
                 ),

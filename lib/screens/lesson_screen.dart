@@ -1,19 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:bettr_mvp/models/plan_brain.dart';
 import 'package:bettr_mvp/constants.dart';
+import 'package:bettr_mvp/screens/home_screen.dart';
+import 'package:bettr_mvp/models/lesson_brain.dart';
+
+int currentLessonIndexCopy;
+String currentLessonCopy;
 
 class LessonScreen extends StatefulWidget {
   final int symptomIndex;
-  final String frequency;
-  final String timeOfDay;
+  final String currentLesson;
+  final int currentLessonIndex;
 
-  LessonScreen({this.symptomIndex, this.timeOfDay, this.frequency});
+  LessonScreen({this.symptomIndex, this.currentLesson, this.currentLessonIndex});
 
   @override
   _LessonScreenState createState() => _LessonScreenState();
 }
 
 class _LessonScreenState extends State<LessonScreen> {
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    currentLessonIndexCopy = widget.currentLessonIndex;
+    currentLessonCopy = widget.currentLesson;
+
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,7 +75,7 @@ class _LessonScreenState extends State<LessonScreen> {
                                     Expanded(
                                       flex: 2,
                                       child: Text(
-                                        '${symptomsList[widget.symptomIndex]} Module',
+                                        '${symptomsList[widget.symptomIndex]['symptom']} Module',
                                         style: kMainTextBold.copyWith(
                                             color: Colors.white, fontSize: 29),
                                       ),
@@ -81,33 +95,68 @@ class _LessonScreenState extends State<LessonScreen> {
                             borderRadius: BorderRadius.circular(30)),
                         child: Container(
                             height: 300,
-                            child: Column(children: [
-                              Padding(
-                                padding:
-                                    const EdgeInsets.fromLTRB(15, 30, 0, 0),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'Lesson #2',
-                                      style: kMainText.copyWith(
-                                          fontSize: 20,
-                                          fontStyle: FontStyle.italic),
-                                    ),
-                                  ],
+                            child: SingleChildScrollView(
+                              child: Column(children: [
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(15, 30, 0, 0),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'Lesson #${currentLessonIndexCopy+1}',
+                                        style: kMainText.copyWith(
+                                            fontSize: 20,
+                                            fontStyle: FontStyle.italic),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.fromLTRB(15, 30, 15, 0),
-                                child: Text(
-                                  'Today, let\'s try turning our phone off 30-45 minutes before we sleep.',
-                                  style: kMainText.copyWith(fontSize: 20),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(15, 30, 15, 15),
+                                  child: Text(
+                                    currentLessonCopy,
+                                    style: kMainText.copyWith(fontSize: 20),
+                                  ),
                                 ),
-                              ),
-                              Text('${widget.timeOfDay}'),
-                              Text('${widget.frequency}')
-                            ]))),
+                              ]),
+                            ))),
+                  ),
+                  Row(children: [
+                    FloatingActionButton(onPressed: () async{
+                      Lesson currentLessonClass = Lesson(symptomIndex: widget.symptomIndex);
+                      int newLessonIndex = await currentLessonClass.changeCurrentLessonIndex(increment: false);
+                      String newLesson = currentLessonClass.getCurrentLesson(newLessonIndex);
+                      setState(() {
+                        currentLessonCopy = newLesson;
+                        currentLessonIndexCopy -= 1;
+                      });
+                    }),
+                    FloatingActionButton(onPressed: () async{
+                      Lesson currentLessonClass = Lesson(symptomIndex: widget.symptomIndex);
+                      int newLessonIndex = await currentLessonClass.changeCurrentLessonIndex(increment: true);
+                      String newLesson = currentLessonClass.getCurrentLesson(newLessonIndex);
+                      setState(() {
+                        currentLessonCopy = newLesson;
+                        currentLessonIndexCopy += 1;
+                      });
+                    })
+                  ],),
+                  TextButton(
+                    onPressed: () async {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return HomeScreen(
+                          lessonButtonVisibility: true,
+                        );
+                      }));
+                    },
+                    child: Text('Return home'.toUpperCase(), style: kMainText.copyWith(fontSize: 18.0)),
+                    style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all(Colors.grey),
+                        foregroundColor:
+                            MaterialStateProperty.all(Colors.black)),
                   )
                 ]))));
   }
