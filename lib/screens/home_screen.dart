@@ -117,7 +117,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               return LessonScreen(
                                 symptomIndex: symptomIndex,
                                 currentLesson: currentLesson,
-                                currentLessonIndex: currentLessonIndex,
+                                // currentLessonIndex: currentLessonIndex,
                               );
                             }));
                           }),

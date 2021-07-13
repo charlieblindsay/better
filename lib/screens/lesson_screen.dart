@@ -6,28 +6,30 @@ import 'package:bettr_mvp/models/lesson_brain.dart';
 
 int currentLessonIndexCopy;
 String currentLessonCopy;
+Lesson currentLessonClass;
 
 class LessonScreen extends StatefulWidget {
   final int symptomIndex;
   final String currentLesson;
-  final int currentLessonIndex;
 
-  LessonScreen({this.symptomIndex, this.currentLesson, this.currentLessonIndex});
+  // final int currentLessonIndex;
+
+  LessonScreen({this.symptomIndex, this.currentLesson});
 
   @override
   _LessonScreenState createState() => _LessonScreenState();
 }
 
 class _LessonScreenState extends State<LessonScreen> {
-
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    currentLessonIndexCopy = widget.currentLessonIndex;
+    currentLessonIndexCopy = 0;
     currentLessonCopy = widget.currentLesson;
-
+    currentLessonClass = Lesson(symptomIndex: widget.symptomIndex);
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -73,7 +75,7 @@ class _LessonScreenState extends State<LessonScreen> {
                                 Row(
                                   children: [
                                     Expanded(
-                                      flex: 2,
+                                      flex: 4,
                                       child: Text(
                                         '${symptomsList[widget.symptomIndex]['symptom']} Module',
                                         style: kMainTextBold.copyWith(
@@ -104,7 +106,7 @@ class _LessonScreenState extends State<LessonScreen> {
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       Text(
-                                        'Lesson #${currentLessonIndexCopy+1}',
+                                        'Lesson #${currentLessonIndexCopy + 1}',
                                         style: kMainText.copyWith(
                                             fontSize: 20,
                                             fontStyle: FontStyle.italic),
@@ -123,40 +125,67 @@ class _LessonScreenState extends State<LessonScreen> {
                               ]),
                             ))),
                   ),
-                  Row(children: [
-                    FloatingActionButton(onPressed: () async{
-                      Lesson currentLessonClass = Lesson(symptomIndex: widget.symptomIndex);
-                      int newLessonIndex = await currentLessonClass.changeCurrentLessonIndex(increment: false);
-                      String newLesson = currentLessonClass.getCurrentLesson(newLessonIndex);
-                      setState(() {
-                        currentLessonCopy = newLesson;
-                        currentLessonIndexCopy -= 1;
-                      });
-                    }),
-                    FloatingActionButton(onPressed: () async{
-                      Lesson currentLessonClass = Lesson(symptomIndex: widget.symptomIndex);
-                      int newLessonIndex = await currentLessonClass.changeCurrentLessonIndex(increment: true);
-                      String newLesson = currentLessonClass.getCurrentLesson(newLessonIndex);
-                      setState(() {
-                        currentLessonCopy = newLesson;
-                        currentLessonIndexCopy += 1;
-                      });
-                    })
-                  ],),
-                  TextButton(
-                    onPressed: () async {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) {
-                        return HomeScreen(
-                          lessonButtonVisibility: true,
-                        );
-                      }));
-                    },
-                    child: Text('Return home'.toUpperCase(), style: kMainText.copyWith(fontSize: 18.0)),
-                    style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(Colors.grey),
-                        foregroundColor:
-                            MaterialStateProperty.all(Colors.black)),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Visibility(
+                        visible: currentLessonClass.backLessonButtonVisibility(
+                            currentLessonIndexCopy ?? 0),
+                        child: FloatingActionButton(
+                          child: Text('<'),
+                            backgroundColor: Colors.white,
+                            foregroundColor: Colors.black,
+                            onPressed: () async {
+                              int newLessonIndex = currentLessonIndexCopy - 1;
+                              // int newLessonIndex = await currentLessonClass.changeCurrentLessonIndex(increment: false);
+                              String newLesson = currentLessonClass
+                                  .getCurrentLesson(newLessonIndex);
+                              setState(() {
+                                currentLessonCopy = newLesson;
+                                currentLessonIndexCopy = newLessonIndex;
+                              });
+                            }),
+                      ),
+                      Visibility(
+                        visible:
+                            currentLessonClass.forwardLessonButtonVisibility(
+                                currentLessonIndexCopy ?? 0),
+                        child: FloatingActionButton(
+                            child: Text('>'),
+                            foregroundColor: Colors.black,
+                            backgroundColor: Colors.white,
+                            onPressed: () async {
+                              int newLessonIndex = currentLessonIndexCopy + 1;
+                              // int newLessonIndex = await currentLessonClass.changeCurrentLessonIndex(increment: true);
+                              String newLesson = currentLessonClass
+                                  .getCurrentLesson(newLessonIndex);
+                              setState(() {
+                                currentLessonCopy = newLesson;
+                                currentLessonIndexCopy = newLessonIndex;
+                              });
+                            }),
+                      )
+                    ],
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 20.0),
+                    child: TextButton(
+                      onPressed: () async {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) {
+                          return HomeScreen(
+                            lessonButtonVisibility: true,
+                          );
+                        }));
+                      },
+                      child: Text('Return home'.toUpperCase(),
+                          style: kMainText.copyWith(fontSize: 18.0)),
+                      style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStateProperty.all(Colors.grey),
+                          foregroundColor:
+                              MaterialStateProperty.all(Colors.black)),
+                    ),
                   )
                 ]))));
   }
