@@ -39,7 +39,7 @@ class _StartScreenState extends State<StartScreen> {
             return LessonScreen(
               symptomIndex: symptomIndex,
               currentLesson: currentLesson,
-              currentLessonIndex: currentLessonIndex,
+              // currentLessonIndex: currentLessonIndex,
             );
           }));
     });

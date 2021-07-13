@@ -2,6 +2,9 @@ import 'package:bettr_mvp/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:bettr_mvp/constants.dart';
 import 'package:bettr_mvp/services/shared_preferences_service.dart';
+import 'package:bettr_mvp/locator.dart';
+import 'package:bettr_mvp/models/lesson_brain.dart';
+import 'package:bettr_mvp/screens/lesson_screen.dart';
 
 class FinalScreen extends StatefulWidget {
 
@@ -56,7 +59,7 @@ class _FinalScreenState extends State<FinalScreen> {
                   ),
                       TextButton(
                         child: Text(
-                          'Return to home screen'.toUpperCase(),
+                          'See first lesson'.toUpperCase(),
                           style: kMainText.copyWith(fontSize: 18.0),
                         ),
                         style: ButtonStyle(
@@ -64,13 +67,19 @@ class _FinalScreenState extends State<FinalScreen> {
                             foregroundColor:
                             MaterialStateProperty.all(Colors.black)),
                         onPressed: () async{
-                          setState(() => loading = true);
-                          SharedPreferencesService sharedPreferences = SharedPreferencesService();
-                          bool lessonButtonVisibility = await sharedPreferences.lessonButtonVisibilityFunction();
-                          setState(() => loading = false);
+                          final sharedPreferencesService =
+                          locator<SharedPreferencesService>();
+                          int symptomIndex = await sharedPreferencesService.getSymptomIndex();
+                          Lesson currentLessonClass = Lesson(symptomIndex: symptomIndex);
+                          int currentLessonIndex = await currentLessonClass.getCurrentLessonIndex();
+                          String currentLesson = currentLessonClass.getCurrentLesson(currentLessonIndex);
                           Navigator.push(context,
-                              MaterialPageRoute(builder: (context){
-                                return HomeScreen(lessonButtonVisibility: lessonButtonVisibility,);
+                              MaterialPageRoute(builder: (context) {
+                                return LessonScreen(
+                                  symptomIndex: symptomIndex,
+                                  currentLesson: currentLesson,
+                                  // currentLessonIndex: currentLessonIndex,
+                                );
                               }));
                         },
                       ),
