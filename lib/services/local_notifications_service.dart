@@ -4,7 +4,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:bettr_mvp/locator.dart';
 import 'package:flutter/material.dart';
 import 'package:bettr_mvp/services/shared_preferences_service.dart';
-import 'package:bettr_mvp/screens/lesson_screen.dart';
+import 'package:bettr_mvp/pages/lesson_screen.dart';
 
 class LocalNotificationService {
   static final FlutterLocalNotificationsPlugin _notificationsPlugin =

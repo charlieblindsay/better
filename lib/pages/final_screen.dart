@@ -1,10 +1,11 @@
-import 'package:bettr_mvp/screens/home_screen.dart';
+import 'package:bettr_mvp/pages/home_screen.dart';
+import 'package:bettr_mvp/widgets/buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:bettr_mvp/constants.dart';
 import 'package:bettr_mvp/services/shared_preferences_service.dart';
 import 'package:bettr_mvp/locator.dart';
 import 'package:bettr_mvp/models/lesson_brain.dart';
-import 'package:bettr_mvp/screens/lesson_screen.dart';
+import 'package:bettr_mvp/pages/lesson_screen.dart';
 
 class FinalScreen extends StatefulWidget {
 
@@ -57,15 +58,13 @@ class _FinalScreenState extends State<FinalScreen> {
                             color: Colors.white, fontSize: 36),
                     textAlign: TextAlign.center,),
                   ),
-                      TextButton(
-                        child: Text(
-                          'See first lesson'.toUpperCase(),
-                          style: kMainText.copyWith(fontSize: 18.0),
-                        ),
-                        style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(Colors.grey),
-                            foregroundColor:
-                            MaterialStateProperty.all(Colors.black)),
+                      SizedBox(height: 30.0,),
+                      CustomWidthButton(
+                          'See First Lesson',
+                        size: ButtonSize.Large,
+                        fontSize: 30.0,
+                        buttonWidth: 300.0,
+                        textBold: false,
                         onPressed: () async{
                           final sharedPreferencesService =
                           locator<SharedPreferencesService>();

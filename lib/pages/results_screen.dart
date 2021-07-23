@@ -1,5 +1,6 @@
 import 'package:bettr_mvp/constants.dart';
-import 'package:bettr_mvp/screens/design_plan_screen.dart';
+import 'package:bettr_mvp/pages/design_plan_screen.dart';
+import 'package:bettr_mvp/widgets/buttons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:bettr_mvp/models/results_brain.dart';
@@ -95,23 +96,19 @@ class ResultsScreen extends StatelessWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 100.0),
-                  child: OutlinedButton(
+                  child: CustomWidthButton(
+                    'Choose plan',
+                    size: ButtonSize.Large,
+                    fontSize: 20.0,
+                    textBold: false,
+                    buttonWidth: 200.0,
                     onPressed: () {
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) {
                             return DesignPlanScreen();
                           }));
                     },
-                    child: Text('Choose plan'),
-                    style: ButtonStyle(
-                        shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30.0),
-                            side: BorderSide(
-                                width: 100.0, color: Colors.black))),
-                        backgroundColor: MaterialStateProperty.all(Colors.grey),
-                        foregroundColor:
-                        MaterialStateProperty.all(Colors.black))),
-                ),
+                  ),)
                   ],
                 ),
               ),

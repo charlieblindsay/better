@@ -1,7 +1,8 @@
+import 'package:bettr_mvp/widgets/buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:bettr_mvp/models/plan_brain.dart';
 import 'package:bettr_mvp/constants.dart';
-import 'package:bettr_mvp/screens/home_screen.dart';
+import 'package:bettr_mvp/pages/home_screen.dart';
 import 'package:bettr_mvp/models/lesson_brain.dart';
 
 int currentLessonIndexCopy;
@@ -44,7 +45,6 @@ class _LessonScreenState extends State<LessonScreen> {
             constraints: BoxConstraints.expand(),
             child: SafeArea(
                 child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
@@ -58,7 +58,7 @@ class _LessonScreenState extends State<LessonScreen> {
                   ),
                   Text(
                     'Today\'s Lesson',
-                    style: kMainTextBold.copyWith(fontSize: 20),
+                    style: kMainTextBold.copyWith(fontSize: 30),
                   ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(50, 30, 50, 0),
@@ -131,6 +131,9 @@ class _LessonScreenState extends State<LessonScreen> {
                       Visibility(
                         visible: currentLessonClass.backLessonButtonVisibility(
                             currentLessonIndexCopy ?? 0),
+                        maintainSize: true,
+                        maintainAnimation: true,
+                        maintainState: true,
                         child: FloatingActionButton(
                           child: Text('<'),
                             backgroundColor: Colors.white,
@@ -150,6 +153,9 @@ class _LessonScreenState extends State<LessonScreen> {
                         visible:
                             currentLessonClass.forwardLessonButtonVisibility(
                                 currentLessonIndexCopy ?? 0),
+                        maintainSize: true,
+                        maintainAnimation: true,
+                        maintainState: true,
                         child: FloatingActionButton(
                             child: Text('>'),
                             foregroundColor: Colors.black,
@@ -169,7 +175,12 @@ class _LessonScreenState extends State<LessonScreen> {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 20.0),
-                    child: TextButton(
+                    child: CustomWidthButton(
+                        'Return home',
+                      size: ButtonSize.Medium,
+                      fontSize: 20.0,
+                      textBold: false,
+                      buttonWidth: 200.0,
                       onPressed: () async {
                         Navigator.push(context,
                             MaterialPageRoute(builder: (context) {
@@ -178,13 +189,6 @@ class _LessonScreenState extends State<LessonScreen> {
                           );
                         }));
                       },
-                      child: Text('Return home'.toUpperCase(),
-                          style: kMainText.copyWith(fontSize: 18.0)),
-                      style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStateProperty.all(Colors.grey),
-                          foregroundColor:
-                              MaterialStateProperty.all(Colors.black)),
                     ),
                   )
                 ]))));

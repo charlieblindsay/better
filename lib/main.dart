@@ -1,10 +1,8 @@
+import 'package:bettr_mvp/pages/start_screen.dart';
 import 'package:bettr_mvp/locator.dart';
-import 'package:bettr_mvp/screens/start_screen.dart';
-import 'package:bettr_mvp/services/local_notifications_service.dart';
+
 import 'package:flutter/material.dart';
-import 'screens/home_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'locator.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
 
