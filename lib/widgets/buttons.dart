@@ -36,7 +36,7 @@ class CustomWidthButton extends StatelessWidget {
   final IconData rightIcon;
   final ButtonSize size;
   final double fontSize;
-  final double buttonWidth;
+  final double buttonWidthProportion;
   final Color backgroundColor;
   final Color textColor;
   final bool textBold;
@@ -46,7 +46,7 @@ class CustomWidthButton extends StatelessWidget {
       this.rightIcon,
       @required this.size,
       @required this.fontSize,
-      @required this.buttonWidth,
+      @required this.buttonWidthProportion,
       @required this.textBold,
       this.backgroundColor,
       this.textColor});
@@ -54,7 +54,7 @@ class CustomWidthButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: buttonWidth,
+      width: MediaQuery.of(context).size.width * buttonWidthProportion,
       child: MaterialButton(
         height: darkButtonStyleStyles[size]['height'],
         elevation: 0,

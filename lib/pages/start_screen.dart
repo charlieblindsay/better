@@ -21,6 +21,7 @@ class StartScreen extends StatefulWidget {
   _StartScreenState createState() => _StartScreenState();
 }
 
+
 class _StartScreenState extends State<StartScreen> {
   @override
   void initState() {
@@ -113,7 +114,7 @@ class _StartScreenState extends State<StartScreen> {
                 CustomWidthButton(
                   'Start',
                   textBold: false,
-                  buttonWidth: 200.0,
+                  buttonWidthProportion: 0.5,
                   fontSize: 30.0,
                   size: ButtonSize.Large,
                   onPressed: () async {

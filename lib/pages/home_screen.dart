@@ -87,7 +87,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   children: [
                     CustomWidthButton(
                       'Screen yourself',
-                      buttonWidth: 250.0,
+                      buttonWidthProportion: 0.65,
                       fontSize: 18.0,
                       textBold: false,
                       size: ButtonSize.Medium,
@@ -101,7 +101,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Visibility(
                       visible: widget.lessonButtonVisibility,
                       child: CustomWidthButton('See daily lesson',
-                          buttonWidth: 250.0,
+                          buttonWidthProportion: 0.65,
                           fontSize: 18.0,
                           textBold: false,
                           size: ButtonSize.Medium, onPressed: () async {
@@ -128,7 +128,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Visibility(
                       visible: widget.lessonButtonVisibility,
                       child: CustomWidthButton('Change your course',
-                          buttonWidth: 250.0,
+                          buttonWidthProportion: 0.65,
                           fontSize: 18.0,
                           textBold: false,
                           size: ButtonSize.Medium, onPressed: () async {

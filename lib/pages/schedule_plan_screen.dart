@@ -90,7 +90,7 @@ class _SchedulePlanScreenState extends State<SchedulePlanScreen> {
 
                 CustomWidthButton(
                     'Confirm Choices',
-                    buttonWidth: 350.0,
+                    buttonWidthProportion: 0.8,
                     fontSize: 30.0,
                     size: ButtonSize.Large,
                     backgroundColor: Colors.blue,

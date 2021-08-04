@@ -205,7 +205,7 @@ class _QuizScreenState extends State<QuizScreen> {
                     'Prev. Question',
                     size: ButtonSize.Small,
                     fontSize: 16.0,
-                    buttonWidth: 175.0,
+                    buttonWidthProportion: 0.45,
                     textBold: false,
                     onPressed: () {
                       setState(() {
@@ -216,7 +216,7 @@ class _QuizScreenState extends State<QuizScreen> {
                 ),
                 CustomWidthButton(
                   quizBrain.nextButtonText(),
-                  buttonWidth: 175.0,
+                  buttonWidthProportion: 0.45,
                   size: ButtonSize.Small,
                   fontSize: 16.0,
                   textBold: false,

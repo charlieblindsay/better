@@ -180,7 +180,7 @@ class _LessonScreenState extends State<LessonScreen> {
                       size: ButtonSize.Medium,
                       fontSize: 20.0,
                       textBold: false,
-                      buttonWidth: 200.0,
+                      buttonWidthProportion: 0.5,
                       onPressed: () async {
                         Navigator.push(context,
                             MaterialPageRoute(builder: (context) {

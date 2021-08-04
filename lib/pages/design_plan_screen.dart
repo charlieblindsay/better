@@ -61,7 +61,7 @@ class _DesignPlanScreenState extends State<DesignPlanScreen> {
                             child: ListTile(
                           title: CustomWidthButton(
                               '${symptomsList[index]['symptom']}',
-                              buttonWidth: 300.0,
+                              buttonWidthProportion: 0.7,
                               size: ButtonSize.Large,
                               fontSize: 20.0,
                               textBold: false,

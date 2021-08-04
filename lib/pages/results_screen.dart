@@ -101,7 +101,7 @@ class ResultsScreen extends StatelessWidget {
                     size: ButtonSize.Large,
                     fontSize: 20.0,
                     textBold: false,
-                    buttonWidth: 200.0,
+                    buttonWidthProportion: 0.5,
                     onPressed: () {
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) {
