@@ -1,12 +1,13 @@
-import 'package:bettr_mvp/screens/schedule_plan_screen.dart';
+import 'package:bettr_mvp/pages/schedule_plan_screen.dart';
+import 'package:bettr_mvp/widgets/buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:bettr_mvp/constants.dart';
 import 'package:bettr_mvp/models/plan_brain.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:bettr_mvp/locator.dart';
 import 'package:bettr_mvp/services/shared_preferences_service.dart';
-import 'package:bettr_mvp/screens/home_screen.dart';
-import 'package:bettr_mvp/screens/lesson_screen.dart';
+import 'package:bettr_mvp/pages/home_screen.dart';
+import 'package:bettr_mvp/pages/lesson_screen.dart';
 
 
 class DesignPlanScreen extends StatefulWidget {
@@ -37,7 +38,6 @@ class _DesignPlanScreenState extends State<DesignPlanScreen> {
             constraints: BoxConstraints.expand(),
             child: SafeArea(
                 child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
@@ -59,7 +59,12 @@ class _DesignPlanScreenState extends State<DesignPlanScreen> {
                       itemBuilder: (context, index) {
                         return Card(
                             child: ListTile(
-                          title: TextButton(
+                          title: CustomWidthButton(
+                              '${symptomsList[index]['symptom']}',
+                              buttonWidthProportion: 0.7,
+                              size: ButtonSize.Large,
+                              fontSize: 20.0,
+                              textBold: false,
                               onPressed: () async {
                                 final sharedPreferencesService =
                                 locator<SharedPreferencesService>();
@@ -72,14 +77,7 @@ class _DesignPlanScreenState extends State<DesignPlanScreen> {
                                       );
                                     }));
                               },
-                              child: Text('${symptomsList[index]['symptom']}')),
-                          // trailing: Visibility(
-                          //     visible: false,
-                          //     maintainSize: true,
-                          //     maintainAnimation: true,
-                          //     maintainState: true,
-                          //     child: Text('${brain.planStateList[index]}')),
-                        ));
+                        )));
                       })
                 ]))));
   }

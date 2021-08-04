@@ -1,8 +1,9 @@
+import 'package:bettr_mvp/widgets/buttons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:bettr_mvp/constants.dart';
 import 'package:bettr_mvp/models/plan_brain.dart';
-import 'package:bettr_mvp/screens/final_screen.dart';
+import 'package:bettr_mvp/pages/final_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 
@@ -31,7 +32,6 @@ class _SchedulePlanScreenState extends State<SchedulePlanScreen> {
             constraints: BoxConstraints.expand(),
             child: SafeArea(
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                   Row(
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -88,15 +88,23 @@ class _SchedulePlanScreenState extends State<SchedulePlanScreen> {
                   ),
                 ),
 
-                ElevatedButton(onPressed: () {
+                CustomWidthButton(
+                    'Confirm Choices',
+                    buttonWidthProportion: 0.8,
+                    fontSize: 30.0,
+                    size: ButtonSize.Large,
+                    backgroundColor: Colors.blue,
+                    textColor: Colors.white,
+                    textBold: true,
+                    onPressed: () {
                   setState(() {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) {
                           return FinalScreen();
                         }));
                   });
-                }, child: Text('Confirm choices'))
-            ]))),
+                },
+                )]))),
     );
   }
 }

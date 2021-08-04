@@ -1,13 +1,14 @@
-import 'package:bettr_mvp/services/local_notifications_service.dart';
+import 'package:bettr_mvp/widgets/buttons.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:bettr_mvp/services/local_notifications_service.dart';
 import 'package:flutter/material.dart';
-import 'package:bettr_mvp/screens/home_screen.dart';
+import 'package:bettr_mvp/pages/home_screen.dart';
 import 'package:bettr_mvp/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:bettr_mvp/widgets/loading.dart';
 import 'package:bettr_mvp/locator.dart';
 import 'package:bettr_mvp/services/shared_preferences_service.dart';
-import 'package:bettr_mvp/screens/lesson_screen.dart';
+import 'package:bettr_mvp/pages/lesson_screen.dart';
 import 'package:bettr_mvp/models/lesson_brain.dart';
 
 
@@ -20,6 +21,7 @@ class StartScreen extends StatefulWidget {
   _StartScreenState createState() => _StartScreenState();
 }
 
+
 class _StartScreenState extends State<StartScreen> {
   @override
   void initState() {
@@ -27,13 +29,22 @@ class _StartScreenState extends State<StartScreen> {
     super.initState();
     LocalNotificationService.initialize(context);
 
+    
+
+    //onMessage is only called when app is in the foreground
+    FirebaseMessaging.onMessage.listen((message) {
+      LocalNotificationService.display(message);
+    });
+
+    //only called when app is in background but open and user taps pn the notification
     FirebaseMessaging.instance.getInitialMessage().then((message) async{
-      final sharedPreferencesService =
-      locator<SharedPreferencesService>();
+      final sharedPreferencesService = locator<SharedPreferencesService>();
       int symptomIndex = await sharedPreferencesService.getSymptomIndex();
-      Lesson currentLessonClass = Lesson(symptomIndex: symptomIndex);
-      int currentLessonIndex = await currentLessonClass.getCurrentLessonIndex();
-      String currentLesson = currentLessonClass.getCurrentLesson(currentLessonIndex);
+      Lesson lessonClass = Lesson();
+      int currentLessonIndex = await lessonClass.getCurrentLessonIndex();
+      String currentLesson = lessonClass.getCurrentLesson(currentLessonIndex);
+      LocalNotificationService.display(message);
+
       Navigator.push(context,
           MaterialPageRoute(builder: (context) {
             return LessonScreen(
@@ -44,28 +55,20 @@ class _StartScreenState extends State<StartScreen> {
           }));
     });
 
-
-    //onMessage is only called when app is in the foreground
-    FirebaseMessaging.onMessage.listen((message) {
-      if (message.notification != null) {
-        print(message.notification.body);
-        print(message.notification.title);
-      }
-
-      LocalNotificationService.display(message);
-    });
-
-    //only called when app is in background but open and user taps pn the notification
     FirebaseMessaging.onMessageOpenedApp.listen((message) async {
-      final sharedPreferencesService =
-      locator<SharedPreferencesService>();
+      final sharedPreferencesService = locator<SharedPreferencesService>();
       int symptomIndex = await sharedPreferencesService.getSymptomIndex();
-      List<String> schedulingList = await sharedPreferencesService
-          .getScheduling();
+      Lesson lessonClass = Lesson();
+      int currentLessonIndex = await lessonClass.getCurrentLessonIndex();
+      String currentLesson = lessonClass.getCurrentLesson(currentLessonIndex);
+      LocalNotificationService.display(message);
+
       Navigator.push(context,
           MaterialPageRoute(builder: (context) {
             return LessonScreen(
               symptomIndex: symptomIndex,
+              currentLesson: currentLesson,
+              // currentLessonIndex: currentLessonIndex,
             );
           }));
     });
@@ -88,7 +91,7 @@ class _StartScreenState extends State<StartScreen> {
           constraints: BoxConstraints.expand(),
           child: SafeArea(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
+              // crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -108,7 +111,12 @@ class _StartScreenState extends State<StartScreen> {
                     textAlign: TextAlign.center,
                   ),
                 ),
-                TextButton(
+                CustomWidthButton(
+                  'Start',
+                  textBold: false,
+                  buttonWidthProportion: 0.5,
+                  fontSize: 30.0,
+                  size: ButtonSize.Large,
                   onPressed: () async {
                     setState(() => loading = true);
                     final sharedPreferences = locator<
@@ -122,10 +130,6 @@ class _StartScreenState extends State<StartScreen> {
                             lessonButtonVisibility: lessonButtonVisibility,);
                         }));
                   },
-                  child: Text('Start'.toUpperCase(), style: kMainText.copyWith(fontSize: 18.0)),
-                  style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(Colors.grey),
-                      foregroundColor: MaterialStateProperty.all(Colors.black)),
                 )
               ],
             ),

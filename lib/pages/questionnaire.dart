@@ -1,5 +1,6 @@
 import 'package:bettr_mvp/constants.dart';
-import 'package:bettr_mvp/screens/results_screen.dart';
+import 'package:bettr_mvp/pages/results_screen.dart';
+import 'package:bettr_mvp/widgets/buttons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:bettr_mvp/models/quiz_brain.dart';
@@ -200,42 +201,39 @@ class _QuizScreenState extends State<QuizScreen> {
                   maintainSize: true,
                   maintainAnimation: true,
                   maintainState: true,
-                  child: TextButton(
+                  child: CustomWidthButton(
+                    'Prev. Question',
+                    size: ButtonSize.Small,
+                    fontSize: 16.0,
+                    buttonWidthProportion: 0.45,
+                    textBold: false,
                     onPressed: () {
                       setState(() {
                         quizBrain.decrementQuestion();
                       });
                     },
-                    child: Text('Previous Question'),
-                    style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(Colors.grey),
-                        foregroundColor:
-                            MaterialStateProperty.all(Colors.black)),
                   ),
                 ),
-                OutlinedButton(
-                    onPressed: () {
-                      if (!quizBrain.quizEnd()) {
-                        setState(() {
-                          quizBrain.incrementQuestion();
-                        });
-                      } else {
-                        int score = quizBrain.calculateScore();
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) {
-                          return ResultsScreen(score: score);
-                        }));
-                      }
-                    },
-                    style: ButtonStyle(
-                        shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30.0),
-                            side: BorderSide(
-                                width: 100.0, color: Colors.black))),
-                        backgroundColor: MaterialStateProperty.all(Colors.grey),
-                        foregroundColor:
-                            MaterialStateProperty.all(Colors.black)),
-                    child: Text(quizBrain.nextButtonText())),
+                CustomWidthButton(
+                  quizBrain.nextButtonText(),
+                  buttonWidthProportion: 0.45,
+                  size: ButtonSize.Small,
+                  fontSize: 16.0,
+                  textBold: false,
+                  onPressed: () {
+                    if (!quizBrain.quizEnd()) {
+                      setState(() {
+                        quizBrain.incrementQuestion();
+                      });
+                    } else {
+                      int score = quizBrain.calculateScore();
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return ResultsScreen(score: score);
+                      }));
+                    }
+                  },
+                )
               ],
             ),
           ],
